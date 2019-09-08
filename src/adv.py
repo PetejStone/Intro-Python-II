@@ -35,7 +35,7 @@ earlier adventurers. The only exit is to the south."""),
 }
 
 #print(Room("outside", "it's cold"))
-# Link rooms together
+## Link rooms together
 
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
