@@ -66,11 +66,12 @@ print(room['foyer'].e_to)
 # outside = Room('outside', 'you are outside')
 # print(outside.name)
 #player = Player('player 1', room['outside'])
-current_room = 'outside'
-quit = True
+current_room = room['outside']
+
+quit = False
 while not quit:
 
-    command = input(f"\n(S)elect a Direction ({current_room})\n(Q)uit\n\nCommand: ")
+    command = input(f"\n(S)elect a Direction: You are now - {current_room}\n(Q)uit\n\nCommand: ")
 
     command = command.lower().strip()  # normalize input
     
@@ -83,19 +84,36 @@ while not quit:
         quit = True
 
     elif command == 's': # select
-        direction = input("Enter list name: ").strip()
+        direction = input("Enter direction (n,s,e,w): ").strip()
         direction = direction.lower().strip()  # normalize input
         direction = direction[0]
 
-        room = room[f"{current_room}"]
+        # room[f"{current_room}"]
         if direction == "n":
-            print(room.n_to)   
+            if f"{current_room.name}" == f"{current_room.n_to}":
+                print('>>>>>>>You cannot go this way')
+            else:
+                current_room = current_room.n_to
+                print(f"You have entered: {current_room}")
+        
         elif direction == "e":
-            print(room.e_to)
+            if f"{current_room.name}" == f"{current_room.e_to}":
+                print('>>>>>>>You cannot go this way')
+            else:
+                current_room = current_room.e_to
+                print(f"You have entered: {current_room}")
         elif direction == "s":
-            print(room.s_to)
+            if f"{current_room.name}" == f"{current_room.s_to}":
+                print('>>>>>>>You cannot go this way')
+            else:
+                current_room = current_room.s_to
+                print(f"You have entered: {current_room}")
         elif direction == "w":
-            print(room.w_to)
+            if f"{current_room.name}" == f"{current_room.w_to}":
+                print('>>>>>>>You cannot go this way')
+            else:
+                current_room = current_room.w_to
+                print(f"You have entered: {current_room}")
             
        
         
