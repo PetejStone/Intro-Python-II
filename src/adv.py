@@ -93,7 +93,7 @@ while not quit:
         command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
         command = command[0]
     
-    if command == '':  #if input is empty do nothing
+    if command == '':  ##if input is empty do nothing
         continue
 
 
