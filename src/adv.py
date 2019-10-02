@@ -75,6 +75,7 @@ browsing = False
 signed_in = False
 name = ''
 player = Player(name,current_room)
+satchel_open = False
 quit = False
 while not quit:
     if signed_in == False:
@@ -84,7 +85,9 @@ while not quit:
         pass
 
     if browsing == True:
-        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(Q)uit\n\nGet Item (type name of item): ").lower() # strips all trailing letters and leaves the first
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(R)eturn to previous menu\n(Q)uit\n\nGet Item (type name of item): ").lower() # strips all trailing letters and leaves the first
+    elif satchel_open == True:
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(D)rop item\n(R)eturn to previous menu\n(Q)uit\n\nCommand: ").lower() # strips all trailing letters and leaves the first
     else:
         command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
         command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
@@ -106,6 +109,7 @@ while not quit:
 
     if command == "n":
         browsing = False
+        satchel_open = False
         if f"{current_room.name}" == f"{current_room.n_to}": #if the direction the user put in is the same room (this happens when a room isn't available in that dir. Entering it again would result in an error)
             message = '>>>>>>> You cannot go this way'
         else:
@@ -114,6 +118,7 @@ while not quit:
     
     elif command == "e":
         browsing = False
+        satchel_open = False
         if f"{current_room.name}" == f"{current_room.e_to}":
             message = '>>>>>>> You cannot go this way'
         else:
@@ -121,6 +126,7 @@ while not quit:
             message = ''
     elif command == "s":
         browsing = False
+        satchel_open = False
         if f"{current_room.name}" == f"{current_room.s_to}":
             message = '>>>>>>> You cannot go this way'
         else:
@@ -128,6 +134,7 @@ while not quit:
             message = ''
     elif command == "w":
         browsing = False
+        satchel_open = False
         if f"{current_room.name}" == f"{current_room.w_to}":
             message = '>>>>>>> You cannot go this way'
         else:
@@ -135,13 +142,34 @@ while not quit:
             message = ''
     elif command == "b":
             browsing = True
-            message = f'>>> While browing, you find these items:\n    {current_room.items}\n'
+            satchel_open = False
+            if current_room.items == []:
+                message = '>>> No items to be found'
+            else:
+                message = f'>>> While browing, you find these items:\n    {current_room.items}\n'
     elif command == "i":
             browsing = False
-            message = f'You are currently holding: {player.items}\n'
+            satchel_open = True
+            if player.items == []:
+                message = '>>> You are not holding any items'
+            else:
+                message = f'>>> You are currently holding: {player.items}\n'
+    elif command == "d":
+            browsing = False
+            satchel_open = True
+            prompt = input(f"Enter name of item you want to drop: ").lower() # strips all trailing letters and leaves the first
+            if prompt in f"{player.items}":
+                player.drop_item(prompt)
+                message = f">>> You have dropped {prompt}"
+            else:
+                message = ">>> You do not have an item by that name"
+    elif command == "r":
+            browsing = False
+            satchel_open = False
     elif command in f"{current_room.items}":
             message = f'>>> You have picked up {command}\n'
             player.get_item(command)
+            current_room.drop_item(command)
             browsing = False
             print(player.items)
 

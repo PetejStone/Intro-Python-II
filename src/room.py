@@ -17,7 +17,11 @@ class Room:
     def __repr__(self):
         return f"{repr(self.name)}"
 
-
+    def get_item(self, item):
+        self.items.append(item)
+        
+    def drop_item(self, item):
+        self.items.remove(item)
 
     def rooms(self):
         pass
