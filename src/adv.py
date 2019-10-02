@@ -15,6 +15,8 @@ from player import Player
 #         return f"Rooms({repr(self.name)})"
 
 
+
+
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons", ['rock']),
@@ -34,6 +36,7 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the South.""", ['bow', 'potion', 'arrowhead']),
 }
 
+
 #print(Room("outside", "it's cold"))
 ## Link rooms together
 
@@ -46,7 +49,7 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-print(room['outside'].items)
+#print(room['outside'].items)
 #
 # Main
 #
@@ -68,25 +71,41 @@ print(room['outside'].items)
 #player = Player('player 1', room['outside'])
 current_room = room['outside'] #current room they are in
 message = '' #message displayed to user if they can't go a direction or enter invalid command
+browsing = False
+signed_in = False
+name = ''
+player = Player(name,current_room)
 quit = False
 while not quit:
+    if signed_in == False:
+        name = input(f"Please enter your name to start: ") #
+        signed_in = True
+    else:
+        pass
 
-    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
-
-    command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
+    if browsing == True:
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(Q)uit\n\nGet Item (type name of item): ").lower() # strips all trailing letters and leaves the first
+    else:
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
+        command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
+        command = command[0]
     
     if command == '':  #if input is empty do nothing
         continue
 
-    command = command[0]
 
     if command == 'q':  # quit
         quit = True
+        signed_in = False
 
-  
 
-        # room[f"{current_room}"]
+    
+   
+        
+
+
     if command == "n":
+        browsing = False
         if f"{current_room.name}" == f"{current_room.n_to}": #if the direction the user put in is the same room (this happens when a room isn't available in that dir. Entering it again would result in an error)
             message = '>>>>>>> You cannot go this way'
         else:
@@ -94,27 +113,40 @@ while not quit:
             message = ''
     
     elif command == "e":
+        browsing = False
         if f"{current_room.name}" == f"{current_room.e_to}":
             message = '>>>>>>> You cannot go this way'
         else:
             current_room = current_room.e_to
             message = ''
     elif command == "s":
+        browsing = False
         if f"{current_room.name}" == f"{current_room.s_to}":
             message = '>>>>>>> You cannot go this way'
         else:
             current_room = current_room.s_to
             message = ''
     elif command == "w":
+        browsing = False
         if f"{current_room.name}" == f"{current_room.w_to}":
             message = '>>>>>>> You cannot go this way'
         else:
             current_room = current_room.w_to
             message = ''
     elif command == "b":
-            message = f'>>> While browing, you find these item(s):\n    {current_room.items}'
-        
+            browsing = True
+            message = f'>>> While browing, you find these items:\n    {current_room.items}\n'
+    elif command == "i":
+            browsing = False
+            message = f'You are currently holding: {player.items}\n'
+    elif command in f"{current_room.items}":
+            message = f'>>> You have picked up {command}\n'
+            player.get_item(command)
+            browsing = False
+            print(player.items)
+
     else:
+        browsing = False
         message = '>>>>>> Please enter a valid command'
             
        
