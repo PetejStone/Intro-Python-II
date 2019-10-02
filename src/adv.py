@@ -66,16 +66,16 @@ print(room['foyer'].e_to)
 # outside = Room('outside', 'you are outside')
 # print(outside.name)
 #player = Player('player 1', room['outside'])
-current_room = room['outside']
-message = ''
+current_room = room['outside'] #current room they are in
+message = '' #message displayed to user if they can't go a direction or enter invalid command
 quit = False
 while not quit:
 
-    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(Q)uit\n\nCommand: ").strip()
+    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
 
-    command = command.lower().strip()  # normalize input
+    command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
     
-    if command == '':
+    if command == '':  #if input is empty do nothing
         continue
 
     command = command[0]
