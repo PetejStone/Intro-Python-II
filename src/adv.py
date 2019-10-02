@@ -85,7 +85,7 @@ while not quit:
         pass
 
     if browsing == True:
-        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(R)eturn to previous menu\n(Q)uit\n\nGet Item (type name of item): ").lower() # strips all trailing letters and leaves the first
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(R)eturn to previous menu\n(Q)uit\n\nPick up item (type name of item): ").lower() # strips all trailing letters and leaves the first
     elif satchel_open == True:
         command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(D)rop item\n(R)eturn to previous menu\n(Q)uit\n\nCommand: ").lower() # strips all trailing letters and leaves the first
     else:
@@ -141,37 +141,41 @@ while not quit:
             current_room = current_room.w_to
             message = ''
     elif command == "b":
-            browsing = True
-            satchel_open = False
-            if current_room.items == []:
-                message = '>>> No items to be found'
-            else:
-                message = f'>>> While browing, you find these items:\n    {current_room.items}\n'
+        browsing = True
+        satchel_open = False
+        if current_room.items == []:
+            message = '>>> No items to be found'
+        else:
+            message = f'>>> While browing, you find these items:\n    {current_room.items}\n'
     elif command == "i":
-            browsing = False
-            satchel_open = True
-            if player.items == []:
-                message = '>>> You are not holding any items'
-            else:
-                message = f'>>> You are currently holding: {player.items}\n'
+        browsing = False
+        satchel_open = True
+        if player.items == []:
+            message = '>>> You are not holding any items'
+        else:
+            message = f'>>> You are currently holding: {player.items}\n'
     elif command == "d":
-            browsing = False
-            satchel_open = True
-            prompt = input(f"Enter name of item you want to drop: ").lower() # strips all trailing letters and leaves the first
-            if prompt in f"{player.items}":
-                player.drop_item(prompt)
-                message = f">>> You have dropped {prompt}"
-            else:
-                message = ">>> You do not have an item by that name"
+        browsing = False
+        satchel_open = True
+        prompt = input(f"Enter name of item you want to drop: ").lower() # strips all trailing letters and leaves the first
+        if prompt in f"{player.items}":
+            player.drop_item(prompt)
+            current_room.get_item(prompt)
+            message = f">>> You have dropped {prompt}"
+        else:
+            message = ">>> You do not have an item by that name"
     elif command == "r":
-            browsing = False
-            satchel_open = False
+        browsing = False
+        satchel_open = False
     elif command in f"{current_room.items}":
+        if len(player.items) < 5:
             message = f'>>> You have picked up {command}\n'
             player.get_item(command)
             current_room.drop_item(command)
             browsing = False
             print(player.items)
+        else:
+            message = '>>> You are holding the max number of items. You must drop something to pick this up.'
 
     else:
         browsing = False
