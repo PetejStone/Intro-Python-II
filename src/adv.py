@@ -85,11 +85,11 @@ while not quit:
         pass
 
     if browsing == True:
-        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(R)eturn to previous menu\n(Q)uit\n\nPick up item (type name of item): ").lower() # strips all trailing letters and leaves the first
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)nventory\n(B)rowse room\n(R)eturn to previous menu\n(Q)uit\n\nPick up tem (type name of item): ").lower() # strips all trailing letters and leaves the first
     elif satchel_open == True:
-        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(D)rop item\n(R)eturn to previous menu\n(Q)uit\n\nCommand: ").lower() # strips all trailing letters and leaves the first
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)nventory\n(D)rop item\n(R)eturn to previous menu\n(Q)uit\n\nCommand: ").lower() # strips all trailing letters and leaves the first
     else:
-        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)tems holding\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
+        command = input(f"\nSelect a Direction:\n\n>>> {name}, you are at - {current_room}\n>>> {current_room.description}\n{message}\n(I)nventory\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
         command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
         command = command[0]
     
