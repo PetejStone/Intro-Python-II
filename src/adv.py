@@ -17,21 +17,21 @@ from player import Player
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons", ['rock']),
 
     'foyer':    Room("Foyer", """Dim light filters in from the South. Dusty
-passages run North and East."""),
+passages run North and East.""", ['quiver', 'knife']),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the North, a light flickers in
-the distance, but there is no way across the chasm."""),
+the distance, but there is no way across the chasm.""", ['drinking pouch', 'map', 'meat']),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from West
-to North. The smell of gold permeates the air."""),
+to North. The smell of gold permeates the air.""", ['arrows', 'cloak', 'tent']),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the South."""),
+earlier adventurers. The only exit is to the South.""", ['bow', 'potion', 'arrowhead']),
 }
 
 #print(Room("outside", "it's cold"))
@@ -46,7 +46,7 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-print(room['foyer'].e_to)
+print(room['outside'].items)
 #
 # Main
 #
@@ -71,7 +71,7 @@ message = '' #message displayed to user if they can't go a direction or enter in
 quit = False
 while not quit:
 
-    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
+    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(B)rowse room\n(Q)uit\n\nCommand: ").strip() # strips all trailing letters and leaves the first
 
     command = command.lower().strip()  # normalize input to always be lowercase and strip any trailing letters
     
@@ -111,6 +111,9 @@ while not quit:
         else:
             current_room = current_room.w_to
             message = ''
+    elif command == "b":
+            message = f'>>> While browing, you find these item(s):\n    {current_room.items}'
+        
     else:
         message = '>>>>>> Please enter a valid command'
             
