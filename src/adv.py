@@ -19,19 +19,19 @@ room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+    'foyer':    Room("Foyer", """Dim light filters in from the South. Dusty
+passages run North and East."""),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
+into the darkness. Ahead to the North, a light flickers in
 the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow':   Room("Narrow Passage", """The narrow passage bends here from West
+to North. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers. The only exit is to the South."""),
 }
 
 #print(Room("outside", "it's cold"))
@@ -67,11 +67,11 @@ print(room['foyer'].e_to)
 # print(outside.name)
 #player = Player('player 1', room['outside'])
 current_room = room['outside']
-
+message = ''
 quit = False
 while not quit:
 
-    command = input(f"\n(S)elect a Direction: You are now - {current_room}\n(Q)uit\n\nCommand: ")
+    command = input(f"\nSelect a Direction:\n\n>>> You are now - {current_room}\n>>> {current_room.description}\n{message}\n(Q)uit\n\nCommand: ").strip()
 
     command = command.lower().strip()  # normalize input
     
@@ -83,37 +83,36 @@ while not quit:
     if command == 'q':  # quit
         quit = True
 
-    elif command == 's': # select
-        direction = input("Enter direction (n,s,e,w): ").strip()
-        direction = direction.lower().strip()  # normalize input
-        direction = direction[0]
+  
 
         # room[f"{current_room}"]
-        if direction == "n":
-            if f"{current_room.name}" == f"{current_room.n_to}":
-                print('>>>>>>>You cannot go this way')
-            else:
-                current_room = current_room.n_to
-                print(f"You have entered: {current_room}")
-        
-        elif direction == "e":
-            if f"{current_room.name}" == f"{current_room.e_to}":
-                print('>>>>>>>You cannot go this way')
-            else:
-                current_room = current_room.e_to
-                print(f"You have entered: {current_room}")
-        elif direction == "s":
-            if f"{current_room.name}" == f"{current_room.s_to}":
-                print('>>>>>>>You cannot go this way')
-            else:
-                current_room = current_room.s_to
-                print(f"You have entered: {current_room}")
-        elif direction == "w":
-            if f"{current_room.name}" == f"{current_room.w_to}":
-                print('>>>>>>>You cannot go this way')
-            else:
-                current_room = current_room.w_to
-                print(f"You have entered: {current_room}")
+    if command == "n":
+        if f"{current_room.name}" == f"{current_room.n_to}": #if the direction the user put in is the same room (this happens when a room isn't available in that dir. Entering it again would result in an error)
+            message = '>>>>>>> You cannot go this way'
+        else:
+            current_room = current_room.n_to
+            message = ''
+    
+    elif command == "e":
+        if f"{current_room.name}" == f"{current_room.e_to}":
+            message = '>>>>>>> You cannot go this way'
+        else:
+            current_room = current_room.e_to
+            message = ''
+    elif command == "s":
+        if f"{current_room.name}" == f"{current_room.s_to}":
+            message = '>>>>>>> You cannot go this way'
+        else:
+            current_room = current_room.s_to
+            message = ''
+    elif command == "w":
+        if f"{current_room.name}" == f"{current_room.w_to}":
+            message = '>>>>>>> You cannot go this way'
+        else:
+            current_room = current_room.w_to
+            message = ''
+    else:
+        message = '>>>>>> Please enter a valid command'
             
        
         
